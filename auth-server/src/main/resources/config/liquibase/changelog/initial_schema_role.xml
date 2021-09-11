@@ -1,0 +1,378 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+	<changeSet id="role_1" author="arg">
+		<createTable tableName="role">
+			<column name="id" type="bigint"
+				autoIncrement="${autoIncrement}">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="name" type="varchar(50)">
+				<constraints unique="true" nullable="false" />
+			</column>
+			<column name="created_date" type="timestamp"
+				defaultValueDate="current_timestamp">
+				<constraints nullable="false" />
+			</column>
+			<column name="last_modified_date" type="timestamp" />
+		</createTable>
+	</changeSet>
+
+	<changeSet id="role_2" author="none">
+		<insert schemaName="public" tableName="role">
+			<column name="id" value="1" />
+			<column name="name" value="role_admin" />
+			<column name="created_date" value="now()" />
+			<column name="last_modified_date" value="now()" />
+		</insert>
+		<insert schemaName="public" tableName="role">
+			<column name="id" value="2" />
+			<column name="name" value="role_doctor" />
+			<column name="created_date" value="now()" />
+			<column name="last_modified_date" value="now()" />
+		</insert>
+		<insert schemaName="public" tableName="role">
+			<column name="id" value="3" />
+			<column name="name" value="role_patient" />
+			<column name="created_date" value="now()" />
+			<column name="last_modified_date" value="now()" />
+		</insert>
+		<insert schemaName="public" tableName="role">
+			<column name="id" value="4" />
+			<column name="name" value="role_state_rep" />
+			<column name="created_date" value="now()" />
+			<column name="last_modified_date" value="now()" />
+		</insert>
+		<insert schemaName="public" tableName="role">
+			<column name="id" value="5" />
+			<column name="name" value="role_distt_rep" />
+			<column name="created_date" value="now()" />
+			<column name="last_modified_date" value="now()" />
+		</insert>
+		<insert schemaName="public" tableName="role">
+			<column name="id" value="6" />
+			<column name="name" value="role_medical_rep" />
+			<column name="created_date" value="now()" />
+			<column name="last_modified_date" value="now()" />
+		</insert>
+		<insert schemaName="public" tableName="role">
+			<column name="id" value="7" />
+			<column name="name" value="role_pharmacist" />
+			<column name="created_date" value="now()" />
+			<column name="last_modified_date" value="now()" />
+		</insert>
+		<insert schemaName="public" tableName="role">
+			<column name="id" value="8" />
+			<column name="name" value="role_lab_attendent" />
+			<column name="created_date" value="now()" />
+			<column name="last_modified_date" value="now()" />
+		</insert>
+		<insert schemaName="public" tableName="role">
+			<column name="id" value="9" />
+			<column name="name" value="role_administrator" />
+			<column name="created_date" value="now()" />
+			<column name="last_modified_date" value="now()" />
+		</insert>
+		<insert schemaName="public" tableName="role">
+			<column name="id" value="10" />
+			<column name="name" value="role_health_worker" />
+			<column name="created_date" value="now()" />
+			<column name="last_modified_date" value="now()" />
+		</insert>
+	</changeSet>
+
+	<changeSet id="permission_1" author="arg">
+		<createTable tableName="permission">
+			<column name="id" type="bigint"	autoIncrement="${autoIncrement}">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+
+			<column name="name" type="varchar(50)" >
+				<constraints unique="true" nullable="false" />
+			</column>
+
+			<column name="created_date" type="timestamp"
+				defaultValueDate="current_timestamp">
+				<constraints nullable="false" />
+			</column>
+			<column name="last_modified_date" type="timestamp" />
+		</createTable>
+	</changeSet>
+
+	<changeSet id="permission_2" author="arg">
+
+		<insert tableName="permission">
+			<column name="id" value="1" />
+			<column name="name" value="can_delete_user" />
+			<column name="created_date" valueDate="${now}" />
+			<column name="last_modified_date" valueDate="${now}" />
+		</insert>
+		<insert tableName="permission">
+			<column name="id" value="2" />
+			<column name="name" value="can_create_user" />
+			<column name="created_date" valueDate="${now}" />
+			<column name="last_modified_date" valueDate="${now}" />
+		</insert>
+		<insert tableName="permission">
+			<column name="id" value="3" />
+			<column name="name" value="can_update_user" />
+			<column name="created_date" valueDate="${now}" />
+			<column name="last_modified_date" valueDate="${now}" />
+		</insert>
+		<insert tableName="permission">
+			<column name="id" value="4" />
+			<column name="name" value="can_read_user" />
+			<column name="created_date" valueDate="${now}" />
+			<column name="last_modified_date" valueDate="${now}" />
+		</insert>
+	</changeSet>
+
+	<changeSet id="permission_role_1" author="arg">
+		<createTable tableName="permission_role">
+			<column name="permission_id" type="bigint">
+				<constraints nullable="false" />
+			</column>
+
+			<column name="role_id" type="bigint">
+				<constraints nullable="false" />
+			</column>
+			<column name="has_access" type="boolean" valueBoolean="false">
+			</column>
+		</createTable>
+		<addPrimaryKey columnNames="permission_id,role_id"
+			tableName="permission_role" />
+
+		<addForeignKeyConstraint
+			baseColumnNames="role_id" baseTableName="permission_role"
+			constraintName="fk_role_mapping_id" referencedColumnNames="id"
+			referencedTableName="role" />
+
+		<addForeignKeyConstraint
+			baseColumnNames="permission_id" baseTableName="permission_role"
+			constraintName="fk_permission_mapping_id" referencedColumnNames="id"
+			referencedTableName="permission" />
+	</changeSet>
+
+
+	<changeSet id="permission_role_2" author="none">
+		<!-- role_admin -->
+		<insert schemaName="public" tableName="permission_role">
+			<column name="permission_id" value="1" />
+			<column name="role_id" value="1" />
+			<column name="has_access" valueBoolean="true" />
+		</insert>
+		<insert schemaName="public" tableName="permission_role">
+			<column name="permission_id" value="2" />
+			<column name="role_id" value="1" />
+			<column name="has_access" valueBoolean="true" />
+		</insert>
+		<insert schemaName="public" tableName="permission_role">
+			<column name="permission_id" value="3" />
+			<column name="role_id" value="1" />
+			<column name="has_access" valueBoolean="true" />
+		</insert>
+		<insert schemaName="public" tableName="permission_role">
+			<column name="permission_id" value="4" />
+			<column name="role_id" value="1" />
+			<column name="has_access" valueBoolean="true" />
+		</insert>
+		<!-- role_user -->
+		<insert schemaName="public" tableName="permission_role">
+			<column name="permission_id" value="1" />
+			<column name="role_id" value="2" />
+			<column name="has_access" valueBoolean="true" />
+		</insert>
+		<insert schemaName="public" tableName="permission_role">
+			<column name="permission_id" value="2" />
+			<column name="role_id" value="2" />
+			<column name="has_access" valueBoolean="true" />
+		</insert>
+		<insert schemaName="public" tableName="permission_role">
+			<column name="permission_id" value="3" />
+			<column name="role_id" value="2" />
+			<column name="has_access" valueBoolean="true" />
+		</insert>
+		<insert schemaName="public" tableName="permission_role">
+			<column name="permission_id" value="4" />
+			<column name="role_id" value="2" />
+			<column name="has_access" valueBoolean="true" />
+		</insert>
+		<!-- role_admin -->
+		<insert schemaName="public" tableName="permission_role">
+			<column name="permission_id" value="1" />
+			<column name="role_id" value="3" />
+			<column name="has_access" valueBoolean="true" />
+		</insert>
+		<insert schemaName="public" tableName="permission_role">
+			<column name="permission_id" value="2" />
+			<column name="role_id" value="3" />
+			<column name="has_access" valueBoolean="true" />
+		</insert>
+		<insert schemaName="public" tableName="permission_role">
+			<column name="permission_id" value="3" />
+			<column name="role_id" value="3" />
+			<column name="has_access" valueBoolean="true" />
+		</insert>
+		<insert schemaName="public" tableName="permission_role">
+			<column name="permission_id" value="4" />
+			<column name="role_id" value="3" />
+			<column name="has_access" valueBoolean="true" />
+		</insert>
+		<!-- role_admin -->
+		<insert schemaName="public" tableName="permission_role">
+			<column name="permission_id" value="1" />
+			<column name="role_id" value="4" />
+			<column name="has_access" valueBoolean="true" />
+		</insert>
+		<insert schemaName="public" tableName="permission_role">
+			<column name="permission_id" value="2" />
+			<column name="role_id" value="4" />
+			<column name="has_access" valueBoolean="true" />
+		</insert>
+		<insert schemaName="public" tableName="permission_role">
+			<column name="permission_id" value="3" />
+			<column name="role_id" value="4" />
+			<column name="has_access" valueBoolean="true" />
+		</insert>
+		<insert schemaName="public" tableName="permission_role">
+			<column name="permission_id" value="4" />
+			<column name="role_id" value="4" />
+			<column name="has_access" valueBoolean="true" />
+		</insert>
+		<!-- role_admin -->
+		<insert schemaName="public" tableName="permission_role">
+			<column name="permission_id" value="1" />
+			<column name="role_id" value="5" />
+			<column name="has_access" valueBoolean="true" />
+		</insert>
+		<insert schemaName="public" tableName="permission_role">
+			<column name="permission_id" value="2" />
+			<column name="role_id" value="5" />
+			<column name="has_access" valueBoolean="true" />
+		</insert>
+		<insert schemaName="public" tableName="permission_role">
+			<column name="permission_id" value="3" />
+			<column name="role_id" value="5" />
+			<column name="has_access" valueBoolean="true" />
+		</insert>
+		<insert schemaName="public" tableName="permission_role">
+			<column name="permission_id" value="4" />
+			<column name="role_id" value="5" />
+			<column name="has_access" valueBoolean="true" />
+		</insert>
+		<!-- role_admin -->
+		<insert schemaName="public" tableName="permission_role">
+			<column name="permission_id" value="1" />
+			<column name="role_id" value="6" />
+			<column name="has_access" valueBoolean="true" />
+		</insert>
+		<insert schemaName="public" tableName="permission_role">
+			<column name="permission_id" value="2" />
+			<column name="role_id" value="6" />
+			<column name="has_access" valueBoolean="true" />
+		</insert>
+		<insert schemaName="public" tableName="permission_role">
+			<column name="permission_id" value="3" />
+			<column name="role_id" value="6" />
+			<column name="has_access" valueBoolean="true" />
+		</insert>
+		<insert schemaName="public" tableName="permission_role">
+			<column name="permission_id" value="4" />
+			<column name="role_id" value="6" />
+			<column name="has_access" valueBoolean="true" />
+		</insert>
+		<!-- role_admin -->
+		<insert schemaName="public" tableName="permission_role">
+			<column name="permission_id" value="1" />
+			<column name="role_id" value="7" />
+			<column name="has_access" valueBoolean="true" />
+		</insert>
+		<insert schemaName="public" tableName="permission_role">
+			<column name="permission_id" value="2" />
+			<column name="role_id" value="7" />
+			<column name="has_access" valueBoolean="true" />
+		</insert>
+		<insert schemaName="public" tableName="permission_role">
+			<column name="permission_id" value="3" />
+			<column name="role_id" value="7" />
+			<column name="has_access" valueBoolean="true" />
+		</insert>
+		<insert schemaName="public" tableName="permission_role">
+			<column name="permission_id" value="4" />
+			<column name="role_id" value="7" />
+			<column name="has_access" valueBoolean="true" />
+		</insert>
+		<!-- role_admin -->
+		<insert schemaName="public" tableName="permission_role">
+			<column name="permission_id" value="1" />
+			<column name="role_id" value="8" />
+			<column name="has_access" valueBoolean="true" />
+		</insert>
+		<insert schemaName="public" tableName="permission_role">
+			<column name="permission_id" value="2" />
+			<column name="role_id" value="8" />
+			<column name="has_access" valueBoolean="true" />
+		</insert>
+		<insert schemaName="public" tableName="permission_role">
+			<column name="permission_id" value="3" />
+			<column name="role_id" value="8" />
+			<column name="has_access" valueBoolean="true" />
+		</insert>
+		<insert schemaName="public" tableName="permission_role">
+			<column name="permission_id" value="4" />
+			<column name="role_id" value="8" />
+			<column name="has_access" valueBoolean="true" />
+		</insert>
+		<!-- role_admin -->
+		<insert schemaName="public" tableName="permission_role">
+			<column name="permission_id" value="1" />
+			<column name="role_id" value="9" />
+			<column name="has_access" valueBoolean="true" />
+		</insert>
+		<insert schemaName="public" tableName="permission_role">
+			<column name="permission_id" value="2" />
+			<column name="role_id" value="9" />
+			<column name="has_access" valueBoolean="true" />
+		</insert>
+		<insert schemaName="public" tableName="permission_role">
+			<column name="permission_id" value="3" />
+			<column name="role_id" value="9" />
+			<column name="has_access" valueBoolean="true" />
+		</insert>
+		<insert schemaName="public" tableName="permission_role">
+			<column name="permission_id" value="4" />
+			<column name="role_id" value="9" />
+			<column name="has_access" valueBoolean="true" />
+		</insert>
+		<!-- role_admin -->
+		<insert schemaName="public" tableName="permission_role">
+			<column name="permission_id" value="1" />
+			<column name="role_id" value="10" />
+			<column name="has_access" valueBoolean="true" />
+		</insert>
+		<insert schemaName="public" tableName="permission_role">
+			<column name="permission_id" value="2" />
+			<column name="role_id" value="10" />
+			<column name="has_access" valueBoolean="true" />
+		</insert>
+		<insert schemaName="public" tableName="permission_role">
+			<column name="permission_id" value="3" />
+			<column name="role_id" value="10" />
+			<column name="has_access" valueBoolean="true" />
+		</insert>
+		<insert schemaName="public" tableName="permission_role">
+			<column name="permission_id" value="4" />
+			<column name="role_id" value="10" />
+			<column name="has_access" valueBoolean="true" />
+		</insert>
+	</changeSet>
+
+</databaseChangeLog>
+
+
+

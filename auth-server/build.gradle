@@ -1,0 +1,63 @@
+plugins {
+	id 'org.springframework.boot' version '2.3.8.RELEASE'
+    id "io.spring.dependency-management" version "1.0.11.RELEASE"
+    id "com.diffplug.gradle.spotless" version "3.24.3"
+    id 'java'
+    id 'eclipse'
+}
+
+spotless {
+    java {
+        licenseHeaderFile rootProject.file('config/formatter/license.java')
+        removeUnusedImports()
+        importOrderFile rootProject.file('config/formatter/eclipse.importorder')
+        eclipse().configFile rootProject.file('config/formatter/formatter.xml')
+    }
+    format("misc") {
+        target("**/*.java")
+        trimTrailingWhitespace()
+        endWithNewline()
+    }
+}
+
+group = 'com.arg'
+version = '0.0.1-SNAPSHOT'
+
+
+sourceCompatibility = 1.8
+ext {
+	set('springCloudVersion', 'Hoxton.SR9')
+}
+repositories { mavenCentral() }
+
+dependencies {
+	compile('org.springframework.boot:spring-boot-starter-thymeleaf')
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.cloud:spring-cloud-starter-config'
+	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+	implementation 'org.springframework.cloud:spring-cloud-starter-oauth2'
+	runtimeOnly 'org.springframework.boot:spring-boot-devtools'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.security:spring-security-test'
+
+	compile('org.springframework.boot:spring-boot-starter-mail')
+	compile group: 'javax.inject', name: 'javax.inject', version: '1'
+	compile "org.postgresql:postgresql"
+	compile "org.apache.commons:commons-dbcp2:2.6.0"
+	compile('org.springdoc:springdoc-openapi-ui:1.2.32')
+	
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+
+    compile('org.liquibase:liquibase-core')
+        compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+}
+
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+	}
+}

@@ -1,0 +1,8 @@
+rootProject.name = 'doctor-app'
+
+include 'discovery'
+include 'gateway'
+include 'auth-server'
+include 'common'
+include 'cms'
+

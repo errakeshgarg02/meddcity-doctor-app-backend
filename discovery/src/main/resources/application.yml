@@ -1,0 +1,46 @@
+spring:
+  application:
+    name: discovery
+
+server:
+    port: 9001
+
+eureka:
+  instance:
+    preferIpAddress: true
+    ip-address: ${ECS_INSTANCE_IP_ADDRESS:127.0.0.1}
+    nonSecurePort: ${server.port}
+    statusPageUrlPath: /actuator/info
+    healthCheckUrlPath: /actuator/health
+    homePageUrl: /
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+    serviceUrl:
+      defaultZone: ${SERVICE_DISCOVERY_BASE_URL:http://localhost:${server.port}}/eureka/
+  server:
+    wait-time-in-ms-when-sync-empty: 3000
+    
+logging:
+  level:
+    root: ERROR
+    com.arg: DEBUG
+  file:  /tmp/logs/${spring.application.name}/${spring.application.name}-log.log
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+    
+# INFO ENDPOINT CONFIGURATION 
+info:
+ app:
+  name: Discovery
+  version: 0.0.1-SNAPSHOT
+  description: The ARG service registry eureka server project
+  java:
+   version: 1.8
+
+management:
+ endpoint:
+  health:
+   show-details: always
+    

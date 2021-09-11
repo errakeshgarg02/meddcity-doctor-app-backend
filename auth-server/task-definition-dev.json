@@ -1,0 +1,54 @@
+{
+  "containerDefinitions": [
+    {
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/dev-auth-server",
+          "awslogs-region": "ap-south-1",
+          "awslogs-stream-prefix": "ecs"
+        }
+      },
+      "portMappings": [
+        {
+          "hostPort": 9003,
+          "protocol": "tcp",
+          "containerPort": 9003
+        }
+      ],
+      "cpu": 0,
+      "environment": [
+         {
+          "name": "DB_HOST",
+          "value": "postgresql-database-1.c66ff6ahuxet.ap-south-1.rds.amazonaws.com"
+        },
+        {
+          "name": "DB_PASSWORD",
+          "value": "DeyjXUFWpBUTYFD13yzy"
+        },
+        {
+          "name": "DB_USERNAME",
+          "value": "postgres"
+        },
+        {
+          "name": "SERVICE_DISCOVERY_BASE_URL",
+          "value": "http://dev-jsi-781798588.ap-south-1.elb.amazonaws.com:9001"
+        }        
+      ],
+      "mountPoints": [],
+      "memory": 800,
+      "volumesFrom": [],
+      "image": "525101048365.dkr.ecr.ap-south-1.amazonaws.com/ifl-auth-server:%BUILD_TAG%",
+      "name": "container-auth-server"
+    }
+  ],
+  "placementConstraints": [],
+  "memory": "950",
+  "family": "dev-auth-server",
+  "requiresCompatibilities": [
+    "EC2"
+  ],
+  "networkMode": "host",
+  "cpu": "1024",
+  "volumes": []
+}

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+	<changeSet id="oauth-client_details_1" author="arg">
+		<createTable tableName="oauth_client_details">
+			<column name="client_id" type="varchar(255)">
+				<constraints nullable="false" primaryKey="true" />
+			</column>
+			<column name="resource_ids" type="varchar(255)" />
+			<column name="client_secret" type="varchar(255)" />
+			<column name="scope" type="varchar(255)" />
+			<column name="authorized_grant_types" type="varchar(255)" />
+			<column name="web_server_redirect_uri" type="varchar(255)" />
+			<column name="authorities" type="varchar(255)" />
+			<column name="access_token_validity" type="INT" />
+			<column name="refresh_token_validity" type="bigint" />
+			<column name="additional_information" type="VARCHAR(4096)" />
+			<column name="autoapprove" type="VARCHAR(4096)" />
+		</createTable>
+	</changeSet>
+
+	<changeSet author="arg" id="oauth-client_details_2">
+	    <insert 
+	            tableName="oauth_client_details">
+	        <column name="client_id" value="arg"/>
+	        <column name="resource_ids" value="mw/adminapp,ms/admin,ms/user,ms/arg"/>
+	        <column name="client_secret" value="{bcrypt}$2a$10$EOs8VROb14e7ZnydvXECA.4LoIhPOoFHKvVF/iBZ/ker17Eocz4Vi"/>
+	        <column name="scope" value="role_admin,role_administrator,role_state_rep,role_distt_rep,role_medical_rep,role_pharmacist,role_lab_attendent,role_health_worker,role_doctor,role_patient"/>
+			<column name="authorized_grant_types" value="authorization_code,password,refresh_token,implicit,mfa" />
+			<column name="authorities" value="can_create_user,can_update_user,can_read_user,can_delete_user"/>
+			<column name="access_token_validity" value="86400" />
+			<column name="refresh_token_validity" type="87400" />
+			<column name="additional_information" type="{}" />
+	    </insert>
+	</changeSet>
+
+	<changeSet id="oauth_access_token_1" author="arg">
+		<createTable tableName="oauth_access_token">
+			<column name="token_id" type="varchar(255)" />
+			<column name="token" type="LONGBLOB" />
+			<column name="authentication_id" type="varchar(255)">
+				<constraints nullable="false" primaryKey="true" />
+			</column>
+			<column name="user_name" type="varchar(50)" />
+			<column name="client_id" type="varchar(255)" />
+			<column name="authentication" type="LONGBLOB" />
+			<column name="refresh_token" type="varchar(255)" />
+		</createTable>
+	</changeSet>
+
+	<changeSet id="oauth_refresh_token_1" author="arg">
+		<createTable tableName="oauth_refresh_token">
+			<column name="token_id" type="varchar(255)" />
+			<column name="token" type="LONGBLOB" />
+			<column name="authentication" type="LONGBLOB" />
+		</createTable>
+	</changeSet>
+</databaseChangeLog>
+
+
+

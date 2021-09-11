@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+	<changeSet id="auth_user_1" author="arg">
+		<createTable tableName="auth_user">
+			<column name="id" type="bigint"
+				autoIncrement="${autoIncrement}">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="name" type="varchar(200)" />
+			<column name="username" type="varchar(200)">
+				<constraints unique="true" nullable="false" />
+			</column>
+			<column name="password" type="varchar(500)" />
+			<column name="email" type="varchar(100)">
+				<constraints unique="false" nullable="true" />
+			</column>
+			<column name="mobile_number" type="varchar(500)" />
+			<column name="data" type="text" />
+			<column name="enabled" type="boolean" valueBoolean="true">
+				<constraints nullable="false" />
+			</column>
+			<column name="account_expired" type="boolean"
+				valueBoolean="false">
+				<constraints nullable="false" />
+			</column>
+			<column name="credentials_expired" type="boolean"
+				valueBoolean="false">
+				<constraints nullable="false" />
+			</column>
+			<column name="account_locked" type="boolean"
+				valueBoolean="false">
+				<constraints nullable="false" />
+			</column>
+			<column name="mfa_enabled" type="boolean" valueBoolean="false" />
+			<column name="mfa_code" type="text" />
+			<column name="mfa_code_exp_time" type="timestamp" />
+			<column name="mfa_channel" type="varchar(500)">
+				<constraints nullable="true" />
+			</column>
+			<column name="created_date" type="timestamp"
+				defaultValueDate="current_timestamp">
+				<constraints nullable="true" />
+			</column>
+			<column name="last_modified_date" type="timestamp"
+				defaultValueDate="current_timestamp">
+				<constraints nullable="true" />
+			</column>
+		</createTable>
+	</changeSet>
+
+	<changeSet id="role_user_1" author="arg">
+		<createTable tableName="role_user">
+			<column name="id" type="bigint"
+				autoIncrement="${autoIncrement}">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="role_id" type="bigint">
+				<constraints nullable="false" />
+			</column>
+			<column name="auth_user_id" type="bigint">
+				<constraints nullable="false" />
+			</column>
+
+		</createTable>
+
+		<addForeignKeyConstraint
+			baseColumnNames="role_id" baseTableName="role_user"
+			constraintName="fk_userrole_role_id" referencedColumnNames="id"
+			referencedTableName="role" />
+
+		<addForeignKeyConstraint
+			baseColumnNames="auth_user_id" baseTableName="role_user"
+			constraintName="fk_userrole_user_id" referencedColumnNames="id"
+			referencedTableName="auth_user" />
+	</changeSet>
+
+
+	<changeSet id="auth_user_2" author="arg">
+		<!-- Admin user role = role_admin -->
+		<insert tableName="auth_user">
+			<column name="id" value="-1" />
+			<column name="username" value="admin" />
+			<column name="password"
+				value="{bcrypt}$2a$10$EOs8VROb14e7ZnydvXECA.4LoIhPOoFHKvVF/iBZ/ker17Eocz4Vi" />
+			<column name="name" value="admin" />
+			<column name="email" value="admin@example.com" />
+			<column name="enabled" valueBoolean="true" />
+			<column name="mobile_number" value="1234567890" />
+			<column name="mfa_enabled" valueBoolean="false" />
+			<column name="mfa_channel" value="SMS" />
+			<column name="account_expired" valueBoolean="false" />
+			<column name="credentials_expired" valueBoolean="false" />
+			<column name="account_locked" valueBoolean="false" />
+			<column name="created_date" valueDate="${now}" />
+			<column name="last_modified_date" valueDate="${now}" />
+		</insert>
+		<insert tableName="role_user">
+			<column name="role_id" value="1" />
+			<column name="auth_user_id" value="-1" />
+		</insert>
+
+		<!-- user administrator role = role_administrator -->
+		<insert tableName="auth_user">
+			<column name="id" value="-2" />
+			<column name="username" value="user-administrator" />
+			<column name="password"
+				value="{bcrypt}$2a$10$EOs8VROb14e7ZnydvXECA.4LoIhPOoFHKvVF/iBZ/ker17Eocz4Vi" />
+			<column name="name" value="user-administrator" />
+			<column name="email" value="user-administrator@example.com" />
+			<column name="enabled" valueBoolean="true" />
+			<column name="mobile_number" value="1234567890" />
+			<column name="mfa_enabled" valueBoolean="false" />
+			<column name="mfa_channel" value="SMS" />
+			<column name="account_expired" valueBoolean="false" />
+			<column name="credentials_expired" valueBoolean="false" />
+			<column name="account_locked" valueBoolean="false" />
+			<column name="created_date" valueDate="${now}" />
+			<column name="last_modified_date" valueDate="${now}" />
+		</insert>
+		<insert tableName="role_user">
+			<column name="role_id" value="9" />
+			<column name="auth_user_id" value="-2" />
+		</insert>
+	</changeSet>
+</databaseChangeLog>
+
+
+

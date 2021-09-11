@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <include file="classpath:config/liquibase/changelog/db-schema-properties.xml"/>
+
+    <changeSet id="00000000000000" author="none" dbms="postgresql,oracle,mysql">
+        <createSequence sequenceName="hibernate_sequence" startValue="1000" incrementBy="1"/>
+    </changeSet>
+  <!--   <include file="classpath:config/liquibase/changelog/initial_schema_auth-server.xml"/> -->
+   <!-- <includeAll path="classpath:config/liquibase/changelog/" /> -->
+   
+   <include file="classpath:config/liquibase/changelog/initial_schema_auth.xml"/>
+   <include file="classpath:config/liquibase/changelog/initial_schema_role.xml"/>
+   <include file="classpath:config/liquibase/changelog/initial_schema_auth-server.xml"/>
+     
+</databaseChangeLog>
