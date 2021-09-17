@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.arg.common.constants.CommonConstants;
 import com.arg.common.exception.ArgException;
 import com.arg.doctorservice.dao.IDoctorDao;
 import com.arg.doctorservice.entity.Doctor;
@@ -32,7 +33,7 @@ public class UserService implements IUserService {
 			throw new ArgException(String.format("User alread exits with mobile number %s", request.getMobileNumber()),
 					HttpStatus.BAD_REQUEST);
 		}
-
+		request.setPassword(CommonConstants.STATIC_PWD);
 		return doctorDao.signup(request)
 				.flatMap(doctor -> authServerIntegration.register(doctor, request.getPassword()));
 	}

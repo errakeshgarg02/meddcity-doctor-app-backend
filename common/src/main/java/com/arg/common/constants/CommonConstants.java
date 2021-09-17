@@ -20,4 +20,6 @@ public class CommonConstants {
     public static final String DATA = "data";
 
     public static final String USER_TYPE = "user_type";
+    
+    public static final String STATIC_PWD = "password@123";
 }

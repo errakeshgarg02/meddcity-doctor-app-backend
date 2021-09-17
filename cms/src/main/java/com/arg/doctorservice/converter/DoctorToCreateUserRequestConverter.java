@@ -24,7 +24,7 @@ public class DoctorToCreateUserRequestConverter implements Converter<Doctor, Cre
         CreateUserRequest createUserRequest = CreateUserRequest.builder().email(source.getEmail())
                 .name(source.getName()).username(source.getUsername()).mfaChannel(ChannelEnum.SMS)
                 .mobileNumber(source.getMobileNumber()).role(source.getRole()).userData(userData)
-                .mfaEnabled(false).build();
+                .mfaEnabled(true).build();
 
         return createUserRequest;
     }
