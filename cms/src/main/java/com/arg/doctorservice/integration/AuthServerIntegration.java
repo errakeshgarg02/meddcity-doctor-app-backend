@@ -22,7 +22,11 @@ public class AuthServerIntegration {
     @Value("${service.administrator.password}")
     private String password;
     
-    private static String grantType = "password";
+    private static String GRANT_TYPE_PASSWORD = "password";
+    
+    private static String GRANT_TYPE_MFA = "mfa";
+    
+    private static String GRANT_TYPE_REFRESH_TOKEN = "refresh_token";
 	
 	@Autowired
 	private AuthServerFeignClient authServerFeignClient;
@@ -35,8 +39,20 @@ public class AuthServerIntegration {
 	}
 	
 	public String login() {
-		Map<String, String> login = authServerFeignClient.login("admin", "password", grantType);
+		Map<String, Object> login = authServerFeignClient.login(username, password, GRANT_TYPE_PASSWORD);
 		return "Bearer " + login.get("access_token");
+	}
+	
+	public Map<String, Object> login(String username, String password) {
+		return authServerFeignClient.login(username, password, GRANT_TYPE_PASSWORD);
+	}
+	
+	public Map<String, Object> verifyMfa(String mfaToken, String mfaCode) {
+		return authServerFeignClient.verifyMfa(mfaToken, mfaCode, GRANT_TYPE_MFA);
+	}
+	
+	public Map<String, Object> refreshToken(String regreshToken) {
+		return authServerFeignClient.refreshToken(regreshToken, GRANT_TYPE_REFRESH_TOKEN);
 	}
 	
 	public Optional<Doctor> register(Doctor doctor, String password) {

@@ -3,7 +3,7 @@ server:
   
 service:
   endpoints:
-    excluded: /public/**,/webjars/**,/actuator/**
+    excluded: /public/**,/webjars/**,/actuator/**,/v1/oauth/**
   administrator:
     username: user-administrator
     password: password       

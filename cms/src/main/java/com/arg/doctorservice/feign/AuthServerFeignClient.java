@@ -20,13 +20,23 @@ import com.arg.common.dto.UserResponse;
 public interface AuthServerFeignClient {
 	
 	@PostMapping(value = "/oauth/token", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	Map<String, String> login(@RequestPart("username") String username, @RequestPart("password") String password,
+	Map<String, Object> login(@RequestPart("username") String username, @RequestPart("password") String password,
 			@RequestPart("grant_type") String grantType);
+	
+	@PostMapping(value = "/oauth/token", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	Map<String, Object> verifyMfa(@RequestPart("mfa_token") String mfa_token, @RequestPart("mfa_code") String mfa_code,
+			@RequestPart("grant_type") String grantType);
+	
+	@PostMapping(value = "/oauth/token", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	Map<String, Object> refreshToken(@RequestPart("refresh_token") String refresh_token, @RequestPart("grant_type") String grantType);
 
 	@GetMapping("/v1/oauth/user/isUserExist")
 	Boolean isUserExist(@RequestParam("input") String input);
 
 	@PostMapping(value = "/v1/oauth/user/register", consumes = MediaType.APPLICATION_JSON_VALUE)
 	UserResponse registerUser(@RequestHeader Map<String, String> headers, @Valid @RequestBody CreateUserRequest request);
+	
+	
+	
 	
 }
